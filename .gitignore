@@ -1,0 +1,8 @@
+
+/whu
+/tmp
+.env
+/__pycache__
+.DS_Store
+.gradio/certificate.pem
+/local_ocr/__pycache__
