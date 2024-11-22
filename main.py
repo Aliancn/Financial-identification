@@ -7,7 +7,6 @@ import pandas as pd
 import re
 
 from shapely import length
-from log import SimpleLogger
 import logging
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -18,7 +17,6 @@ from zhipuai import ZhipuAI
 from pprint import pprint
 
 _ = load_dotenv(find_dotenv())
-logger = SimpleLogger(log_file='app.log', log_level=logging.DEBUG)
 default_classification_file_path = "./whu/classification_standard.xlsx"
 
 prompt_template = """
@@ -66,8 +64,6 @@ def preprocess_image(image_path):
     对发票图像进行预处理以提高OCR效果。
     """
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    # 预处理步骤：去噪、二值化、旋转校正等
-    # 例如，二值化处理
     _, thresh_image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY)
     return thresh_image
 
@@ -92,11 +88,15 @@ def extract_fields(ocr_result):
     从 OCR 结果中提取关键字段，如发票号、日期、金额等。
     """
     fields = {
-        "InvoiceNum": "",
-        "InvoiceDate": "",
-        "TotalAmount": "",
-        "SellerName": "",
-        "PurchaserName": "",
+        "InvoiceNum": "",  # 发票号
+        "InvoiceDate": "",  # 发票日期
+        "NoteDrawer": "",  # 开票人
+        "TotalAmount": "",  # 总金额
+        "TotalTax": "",  # 总税额
+        "SellerName": "",  # 销售方名称
+        "SellerRegisterNum": "",  # 销售方纳税人识别号
+        "PurchaserName": "",  # 购买方名称
+        "PurchaserRegisterNum": "",  # 购买方纳税人识别号
         "CommodityDetails": []
     }
     if "words_result" in ocr_result and len(ocr_result["words_result"]) > 0:
@@ -106,19 +106,26 @@ def extract_fields(ocr_result):
             0].get("word", "")
         fields["InvoiceDate"] = result.get("InvoiceDate", [{}])[
             0].get("word", "")
+        fields["NoteDrawer"] = result.get("NoteDrawer", [{}])[
+            0].get("word", "")
         fields["TotalAmount"] = result.get("TotalAmount", [{}])[
             0].get("word", "")
+        fields["TotalTax"] = result.get("TotalTax", [{}])[0].get("word", "")
         fields["SellerName"] = result.get("SellerName", [{}])[
             0].get("word", "")
+        fields["SellerRegisterNum"] = result.get("SellerRegisterNum", [{}])[0].get(
+            "word", "")
         fields["PurchaserName"] = result.get("PurchaserName", [{}])[
             0].get("word", "")
+        fields["PurchaserRegisterNum"] = result.get("PurchaserRegisterNum", [{}])[0].get(
+            "word", "")
 
         commodity_names = result.get("CommodityName", [])
-        commodity_prices = result.get("CommodityPrice", [])
-        commodity_nums = result.get("CommodityNum", [])
-        commodity_units = result.get("CommodityUnit", [])
-        commodity_tax_rates = result.get("CommodityTaxRate", [])
-        commodity_taxes = result.get("CommodityTax", [])
+        # commodity_prices = result.get("CommodityPrice", [])
+        # commodity_nums = result.get("CommodityNum", [])
+        # commodity_units = result.get("CommodityUnit", [])
+        # commodity_tax_rates = result.get("CommodityTaxRate", [])
+        # commodity_taxes = result.get("CommodityTax", [])
         commodity_amounts = result.get("CommodityAmount", [])
         for i in range(len(commodity_names)):
             commodity_detail = {
@@ -126,8 +133,8 @@ def extract_fields(ocr_result):
                 # "Price": commodity_prices[i].get("word", ""),
                 # "Num": commodity_nums[i].get("word", ""),
                 # "Unit": commodity_units[i].get("word", ""),
-                "TaxRate": commodity_tax_rates[i].get("word", ""),
-                "Tax": commodity_taxes[i].get("word", ""),
+                # "TaxRate": commodity_tax_rates[i].get("word", ""),
+                # "Tax": commodity_taxes[i].get("word", ""),
                 "Amount": commodity_amounts[i].get("word", "")
             }
             fields["CommodityDetails"].append(commodity_detail)
@@ -201,7 +208,7 @@ def extract_json_from_response(response_text):
 
 
 # 7. 主流程控制函数
-def process_invoice(image_path, classification_file_path= default_classification_file_path):
+def process_invoice(image_path, classification_file_path=default_classification_file_path):
     """
     主流程控制函数，处理单张发票的所有步骤。
     """
@@ -212,25 +219,21 @@ def process_invoice(image_path, classification_file_path= default_classification
     # 构建分类上下文
     context_prompt = build_classification_context(classification_standard)
 
-    logger.info(f"context_prompt: {context_prompt}")
-    # 图像预处理 暂不需要
-    # preprocessed_image = preprocess_image(image_path)
-
     # OCR 识别
     ocr_text = perform_ocr(image_path, src="baidu")
-    logger.info(f"ocr_text: {ocr_text}")
+    # logger.info(f"ocr_text: {ocr_text}")
 
     # 字段提取
     extracted_fields = extract_fields(ocr_text)
-    logger.info(f"extracted_fields: {extracted_fields}")
+    # logger.info(f"extracted_fields: {extracted_fields}")
 
     # 分类
     category = classify_invoice(
         context_prompt, extracted_fields["CommodityDetails"])
-    logger.info(f"category: {category}")
+    # logger.info(f"category: {category}")
 
     category_json = extract_json_from_response(category.content)
-    logger.info(f"category_json: {category_json}")
+    # logger.info(f"category_json: {category_json}")
     # 返回处理结果
     return {
         "extracted_fields": extracted_fields,
