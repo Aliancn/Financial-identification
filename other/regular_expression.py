@@ -1,5 +1,3 @@
-# # coding=gb2312
-
 import pandas as pd
 import re
 

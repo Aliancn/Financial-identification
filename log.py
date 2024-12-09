@@ -34,11 +34,3 @@ class SimpleLogger:
 
 
 logger = SimpleLogger(log_file='app.log', log_level=logging.DEBUG)
-# 示例用法
-# if __name__ == "__main__":
-#     logger = SimpleLogger(log_file='app.log', log_level=logging.DEBUG)
-#     logger.debug('这是一个调试消息')
-#     logger.info('这是一个信息消息')
-#     logger.warning('这是一个警告消息')
-#     logger.error('这是一个错误消息')
-#     logger.critical('这是一个严重错误消息')

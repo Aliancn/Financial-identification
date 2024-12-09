@@ -4,14 +4,8 @@ from fastapi.responses import JSONResponse
 import gradio as gr
 import shutil
 import os
-import pathlib
-import logging
 
-from matplotlib.pyplot import cla
-from sklearn.metrics import classification_report
-from main import process_invoice
-from sklearn import base
-from sympy import false
+from main_o_g import process_invoice
 from log import logger
 import time
 import pandas as pd
@@ -19,8 +13,7 @@ app = FastAPI()
 time_now = time.time()
 logger.info("App started: " + f"{time_now}")
 
-# 模拟分类函数
-
+# 模拟分类函
 
 def classify_invoice(file_path):
     # 这里可以添加实际的分类逻辑
@@ -106,7 +99,7 @@ def gradio_interface():
             return classification, df_fields
 
         classify_button.click(update_info, inputs=[
-                              file_input],outputs=[classification_output, fields_table])
+                              file_input], outputs=[classification_output, fields_table])
 
     return demo
 
@@ -124,18 +117,20 @@ async def read_root():
 async def get_gradio():
     return gradio_app.launch(share=True)
 
+
 def save_uploaded_file(uploaded_file: UploadFile, target_dir: str = '/tmp') -> str:
     try:
         target_dir = os.path.join(os.getcwd(), target_dir)
         os.makedirs(target_dir, exist_ok=True)
         file_path = os.path.join(target_dir, uploaded_file.filename)
-        
+
         with open(file_path, "wb") as file:
             file.write(uploaded_file.file.read())
-        
+
         return file_path
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save file: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to save file: {e}")
 
 
 @app.post("/classify")

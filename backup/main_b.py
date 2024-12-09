@@ -11,11 +11,11 @@ import logging
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from local_ocr.baidu_financial import get_baidu_ocr
-from local_ocr.local_easyocr import get_local_ocr
 from dotenv import load_dotenv, find_dotenv
 from zhipuai import ZhipuAI
 from pprint import pprint
-
+from ocr_chat import ocr_chat
+from me_req import req_chat
 _ = load_dotenv(find_dotenv())
 default_classification_file_path = "./whu/classification_standard.xlsx"
 
@@ -75,7 +75,8 @@ def perform_ocr(preprocessed_image, src="local"):
     使用OCR提取发票中的文本信息。
     """
     if src == "local":
-        texts = get_local_ocr(preprocessed_image)
+        # texts = get_local_ocr(preprocessed_image)
+        texts = get_baidu_ocr(preprocessed_image)
     else:
         # 调用云端 OCR 服务
         texts = get_baidu_ocr(preprocessed_image)
@@ -142,7 +143,70 @@ def extract_fields(ocr_result):
     return fields
 
 
+def extract_fields_glm(ocr_result):
+    """
+    从 OCR 结果中提取关键字段，如发票号、日期、金额等。
+    """
+    fields = {
+        "InvoiceNum": "",  # 发票号
+        "InvoiceDate": "",  # 发票日期
+        "NoteDrawer": "",  # 开票人
+        "TotalAmount": "",  # 总金额
+        "TotalTax": "",  # 总税额
+        "TotalPay": "",  # 实付金额
+        "SellerName": "",  # 销售方名称
+        "SellerRegisterNum": "",  # 销售方纳税人识别号
+        "PurchaserName": "",  # 购买方名称
+        "PurchaserRegisterNum": "",  # 购买方纳税人识别号
+        "CommodityDetails": []
+    }
+    if "words_result" in ocr_result and len(ocr_result["words_result"]) > 0:
+        result = ocr_result["words_result"][0]["result"]
+
+        fields["InvoiceNum"] = result.get("InvoiceNum", [{}])[
+            0].get("word", "")
+        fields["InvoiceDate"] = result.get("InvoiceDate", [{}])[
+            0].get("word", "")
+        fields["NoteDrawer"] = result.get("NoteDrawer", [{}])[
+            0].get("word", "")
+        fields["TotalAmount"] = result.get("TotalAmount", [{}])[
+            0].get("word", "")
+        fields["TotalTax"] = result.get("TotalTax", [{}])[0].get("word", "")
+        fields["TotalPay"] = result.get("AmountInFiguers", [{}])[
+            0].get("word", "")
+        fields["SellerName"] = result.get("SellerName", [{}])[
+            0].get("word", "")
+        fields["SellerRegisterNum"] = result.get("SellerRegisterNum", [{}])[0].get(
+            "word", "")
+        fields["PurchaserName"] = result.get("PurchaserName", [{}])[
+            0].get("word", "")
+        fields["PurchaserRegisterNum"] = result.get("PurchaserRegisterNum", [{}])[0].get(
+            "word", "")
+
+        commodity_names = result.get("CommodityName", [])
+        # commodity_prices = result.get("CommodityPrice", [])
+        # commodity_nums = result.get("CommodityNum", [])
+        # commodity_units = result.get("CommodityUnit", [])
+        # commodity_tax_rates = result.get("CommodityTaxRate", [])
+        # commodity_taxes = result.get("CommodityTax", [])
+        commodity_amounts = result.get("CommodityAmount", [])
+        for i in range(len(commodity_names)):
+            commodity_detail = {
+                "Name": commodity_names[i].get("word", ""),
+                # "Price": commodity_prices[i].get("word", ""),
+                # "Num": commodity_nums[i].get("word", ""),
+                # "Unit": commodity_units[i].get("word", ""),
+                # "TaxRate": commodity_tax_rates[i].get("word", ""),
+                # "Tax": commodity_taxes[i].get("word", ""),
+                "Amount": commodity_amounts[i].get("word", "")
+            }
+            fields["CommodityDetails"].append(commodity_detail)
+
+    return fields
+
 # 构建分类上下文
+
+
 def build_classification_context(classification_df):
     """
     构建分类的上下文信息，将表格转换为大模型的输入上下文。
@@ -177,6 +241,9 @@ def classify_invoice(prompt, commodityDetails):
         ],
     )
     return response.choices[0].message
+
+    # response = req_chat(prompt, commodityDetails)
+    # return response
 
 
 def extract_json_from_response(response_text):
@@ -221,6 +288,7 @@ def process_invoice(image_path, classification_file_path=default_classification_
 
     # OCR 识别
     ocr_text = perform_ocr(image_path, src="baidu")
+    # ocr_text = ocr_chat(image_path)
     # logger.info(f"ocr_text: {ocr_text}")
 
     # 字段提取
@@ -242,9 +310,9 @@ def process_invoice(image_path, classification_file_path=default_classification_
 
 
 # 运行示例
-# if __name__ == "__main__":
-#     image_path = "./whu/test2/3.jpg"
-#     classification_file_path = "./whu/classification_standard.xlsx"
-#     result = process_invoice(image_path, classification_file_path)
-#     pprint(result["extracted_fields"])
-#     pprint(result["category"])
+if __name__ == "__main__":
+    image_path = "./whu/test2/3.jpg"
+    classification_file_path = "./whu/classification_standard.xlsx"
+    result = process_invoice(image_path, classification_file_path)
+    pprint(result["extracted_fields"])
+    pprint(result["category"])

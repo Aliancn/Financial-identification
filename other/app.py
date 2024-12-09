@@ -221,7 +221,8 @@ def ocr(img_path, rotate=False, degrees=0):
         os.remove(rotated_path)
     else:
         # 直接使用原始图像进行 OCR
-        result = hub.Module(name="chinese_ocr_db_crnn_server", enable_mkldnn=True)
+        result = hub.Module(
+            name="chinese_ocr_db_crnn_server", enable_mkldnn=True)
         result = result.recognize_text(images=[cv2.imread(img_path)])
     return result
 
@@ -285,19 +286,24 @@ async def ocr_endpoint(file: UploadFile = File(...), file_type: str = File(...),
                 response = generate_response(plain_text, prompt)
                 responses.append(response)
         else:
-            raise HTTPException(status_code=400, detail="Unsupported file type")
+            raise HTTPException(
+                status_code=400, detail="Unsupported file type")
     finally:
         os.remove(file_path)
     # 返回响应
     return JSONResponse(content=responses)
 
+
 class RequestData(BaseModel):
     prompt: str
     input_text: str
     session_id: str
+
+
 @app.post("/generate/")
 async def generate(request_data: RequestData):
-    response = multiple_dialogue(request_data.input_text, request_data.prompt, request_data.session_id)
+    response = multiple_dialogue(
+        request_data.input_text, request_data.prompt, request_data.session_id)
     return JSONResponse(content={"response": response})
 
 
@@ -308,4 +314,3 @@ async def reset_session(session_id: str):
         return JSONResponse(content={"message": "Session reset"})
     else:
         raise HTTPException(status_code=404, detail="Session not found")
-

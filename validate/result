@@ -1,0 +1,126 @@
+{
+    "VerifyFrequency": "2",
+    "words_result": {
+        "CommodityAmount": [
+            {
+                "word": "147.65",
+                "row": "1"
+            }
+        ],
+        "CarrierCode": "",
+        "CommodityNum": [
+            {
+                "word": "5",
+                "row": "1"
+            }
+        ],
+        "ListLabel": "",
+        "SenderCode": "",
+        "Carrier": "",
+        "VehicleTypeNum": "",
+        "TaxControlNum": "",
+        "PurchaserRegisterNum": "91420111MA4KMELF75",
+        "TotalTax": "19.19",
+        "CommodityVehicleType": [
+            {
+                "row": "1",
+                "word": ""
+            }
+        ],
+        "CommodityTaxRate": [
+            {
+                "row": "1",
+                "word": "13%"
+            }
+        ],
+        "SellerAddress": "深圳市福田区商报路2号奥林匹克大厦27层 0755-82048202",
+        "CommodityEndDate": [
+            {
+                "word": "",
+                "row": "1"
+            }
+        ],
+        "CommodityPrice": [
+            {
+                "row": "1",
+                "word": "29.529203539823"
+            }
+        ],
+        "Checker": "",
+        "CommodityType": [
+            {
+                "row": "1",
+                "word": "轨迹仪0126_PCB1_20240131111512"
+            }
+        ],
+        "Receiver": "",
+        "CommodityExpenseItem": [
+            {
+                "row": "1",
+                "word": ""
+            }
+        ],
+        "RecipientCode": "",
+        "PurchaserName": "迈禾科技有限公司",
+        "Sender": "",
+        "SellerRegisterNum": "91440300795432869Y",
+        "TransportCargoInformation": "",
+        "CommodityPlateNum": [
+            {
+                "row": "1",
+                "word": ""
+            }
+        ],
+        "TotalAmount": "147.65",
+        "SellerBank": "平安银行深圳华富支行 0212100242249",
+        "PurchaserAddress": "",
+        "Payee": "",
+        "Remarks": "482597C",
+        "CommodityName": [
+            {
+                "word": "*印制电路板*线路板",
+                "row": "1"
+            }
+        ],
+        "AmountInFiguers": "166.84",
+        "NoteDrawer": "",
+        "DepartureViaArrival": "",
+        "TollSign": "",
+        "Recipient": "",
+        "ESVATURL": "",
+        "VehicleTonnage": "",
+        "PurchaserBank": "",
+        "ReceiverCode": "",
+        "CommodityUnit": [
+            {
+                "word": "片",
+                "row": "1"
+            }
+        ],
+        "CommodityStartDate": [
+            {
+                "row": "1",
+                "word": ""
+            }
+        ],
+        "CommodityTax": [
+            {
+                "row": "1",
+                "word": "19.19"
+            }
+        ],
+        "SellerName": "深圳嘉立创科技集团股份有限公司",
+        "ZeroTaxRateIndicator": ""
+    },
+    "MachineCode": "",
+    "InvoiceNum": "24952000000029282138",
+    "InvoiceDate": "20240311",
+    "VerifyResult": "0001",
+    "InvalidSign": "N",
+    "InvoiceCode": "",
+    "InvoiceType": "全电发票（普通发票）",
+    "words_result_num": 45,
+    "CheckCode": "24952000000029282138",
+    "VerifyMessage": "查验成功发票一致",
+    "log_id": "1865956354251542297"
+}
