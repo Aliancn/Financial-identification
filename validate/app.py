@@ -3,12 +3,12 @@ import json
 from math import log
 from multiprocessing import process
 # from parse_with_json import extract_invoice_fields, find_with_json
-from ocr_receipt.OCR import handle_uploaded_file, save_and_return_path
-from ocr_receipt.QR import process_images
+from validate.OCR import handle_uploaded_file, save_and_return_path
+from validate.QR import process_images
 
 import os
 from paddlex import create_pipeline
-from ocr_receipt.val_baidu import vaild
+from validate.val_baidu import vaild
 
 
 def predict(file_path):
