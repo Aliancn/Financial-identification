@@ -35,7 +35,8 @@ def req_chat(prompt, content,  history=None, api_url='http://127.0.0.1:6006/api/
 
 
 def ocr2content(img_path):
-    # need to run only once to download and load model into memory
+    # 使用paddle获得图片内容
+    # 包含了文本内容和坐标
     ocr = PaddleOCR(lang='ch')
     content = ""
     result = ocr.ocr(img_path, cls=False)

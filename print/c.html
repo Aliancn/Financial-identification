@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武汉大学软件资产报账单</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #000;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        table th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        .footer {
+            font-size: 12px;
+            color: #666;
+            border-top: 1px dashed #000;
+            padding-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <!-- 基本信息 -->
+        <table>
+            <tr>
+                <td><strong>报账单编号：</strong>{{ report_number }}</td>
+                <td><strong>单位：</strong>{{ department }}</td>
+                <td><strong>验收时间：</strong>{{ accept_date }}</td>
+            </tr>
+            <tr>
+                <td><strong>经办人工号：</strong>{{ operator_id }}</td>
+                <td colspan="2"><strong>经办人：</strong>{{ operator_name }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"><strong>验收人：</strong>{{ acceptor }}</td>
+            </tr>
+        </table>
+
+        <!-- 项目信息 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>项目编号</th>
+                    <th>支出内容</th>
+                    <th>金额</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ project_number }}</td>
+                    <td>{{ project_content }}</td>
+                    <td>{{ project_amount }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 预约报账金额 -->
+        <table>
+            <tr>
+                <td><strong>预约报账总金额（大写）：</strong></td>
+                <td>{{ booked_amount_upper }}</td>
+            </tr>
+            <tr>
+                <td><strong>预约报账总金额（小写）：</strong></td>
+                <td>{{ booked_amount_lower }}</td>
+            </tr>
+        </table>
+
+        <!-- 支付信息 -->
+        <table>
+            <tr>
+                <td><strong>支付方式：</strong></td>
+                <td>{{ payment_method }}</td>
+            </tr>
+            <tr>
+                <td><strong>金额：</strong></td>
+                <td>{{ payment_amount }}</td>
+            </tr>
+            <tr>
+                <td><strong>附言：</strong></td>
+                <td>{{ payment_note }}</td>
+            </tr>
+        </table>
+
+        <!-- 发票信息 -->
+        <table>
+            <tr>
+                <td><strong>发票信息：</strong></td>
+                <td>金额：{{ invoice_amount }}</td>
+                <td>税额：{{ invoice_tax }}</td>
+                <td>总金额：{{ invoice_total }}</td>
+            </tr>
+        </table>
+
+        <!-- 对方单位信息 -->
+        <table>
+            <tr>
+                <td><strong>对方单位：</strong></td>
+                <td>{{ counterparty_name }}</td>
+            </tr>
+            <tr>
+                <td><strong>对方地区：</strong></td>
+                <td>{{ counterparty_region }}</td>
+            </tr>
+            <tr>
+                <td><strong>对方银行：</strong></td>
+                <td>{{ counterparty_bank }}</td>
+            </tr>
+            <tr>
+                <td><strong>对方账号：</strong></td>
+                <td>{{ counterparty_account }}</td>
+            </tr>
+        </table>
+
+        <!-- 电子发票信息 -->
+        <table>
+            <tr>
+                <td><strong>电子发票号：</strong></td>
+                <td>{{ electronic_invoice_number }}</td>
+            </tr>
+            <tr>
+                <td><strong>发票号码：</strong></td>
+                <td>{{ invoice_number }}</td>
+            </tr>
+            <tr>
+                <td><strong>发票单位名称：</strong></td>
+                <td>{{ invoice_unit_name }}</td>
+            </tr>
+        </table>
+
+        <!-- 虚线以下内容 -->
+        <div class="footer">
+            <p><strong>虚线以下内容由财务处会计人员填写</strong></p>
+            <p><strong>实际报账总金额（大写）：</strong>{{ actual_amount_upper }}</p>
+            <p><strong>实际报账总金额（小写）：</strong>{{ actual_amount_lower }}</p>
+            <p><strong>实际张数：</strong>{{ actual_number }}</p>
+            <p>温馨提示：此单报账金额以财务核定金额为准，报账标准参照财务处相关制度规定。</p>
+        </div>
+    </div>
+</body>
+</html>

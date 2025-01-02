@@ -1,7 +1,7 @@
 {
-    "input_path": "/Users/aliancn/code/python/Financial-identification/whu/image.png",
+    "input_path": "/Users/aliancn/code/python/Financial-identification/tmp/image.png",
     "layout_result": {
-        "input_path": "/Users/aliancn/code/python/Financial-identification/whu/image.png",
+        "input_path": "/Users/aliancn/code/python/Financial-identification/tmp/image.png",
         "boxes": [
             {
                 "cls_id": 3,
@@ -834,11 +834,11 @@
             0.9997646808624268,
             0.999029815196991
         ],
-        "input_path": "/Users/aliancn/code/python/Financial-identification/whu/image.png"
+        "input_path": "/Users/aliancn/code/python/Financial-identification/tmp/image.png"
     },
     "table_result": [
         {
-            "input_path": "/Users/aliancn/code/python/Financial-identification/whu/image.png",
+            "input_path": "/Users/aliancn/code/python/Financial-identification/tmp/image.png",
             "layout_bbox": [
                 52,
                 11,

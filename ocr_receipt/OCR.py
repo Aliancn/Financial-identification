@@ -78,27 +78,3 @@ def save_and_return_path(res, output_dir, file_prefix):
     return {"image_path": os.path.abspath(img_path), "json_path": os.path.abspath(json_path)}
 
 
-# image_path = "../whu/image.png"
-# pipeline = create_pipeline(pipeline="table_recognition")
-# image_path = handle_uploaded_file(image_path)
-# output = pipeline.predict(image_path)
-
-# 输出目录
-# output_dir = "./output/"
-# result_paths = []
-
-# 存储预测结果
-# for idx, res in enumerate(output):
-#     file_prefix = f"result_{idx}"
-#     paths = save_and_return_path(res, output_dir, file_prefix)
-#     result_paths.append(paths)
-
-# 打印所有结果路径
-# for idx, paths in enumerate(result_paths):
-#     print(f"Result {idx}:")
-#     print(f"  Image Path: {paths['image_path']}")
-#     print(f"  JSON Path: {paths['json_path']}")
-
-
-# qr_data = process_images("../whu/image.png")
-# res = find_with_json(result_paths[0]['json_path'], qr_data)

@@ -6,7 +6,7 @@ from yaml import Token
 load_dotenv(find_dotenv())
 API_KEY = environ.get("BAIDU_API_KEY")
 SECRET_KEY = environ.get("BAIDU_SECRET_KEY")
-TOKEN = None
+Token = None
     
 
 def get_access_token():

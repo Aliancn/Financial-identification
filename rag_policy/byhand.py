@@ -4,6 +4,7 @@ import pandas as pd
 
 
 def getTextPdf(path: str):
+    # 读取PDF文档
     with pdfplumber.open(path) as pdf:
         print('页数：', len(pdf.pages))
         content = ''
@@ -21,6 +22,7 @@ def getTextPdf(path: str):
 # result = content.split('地方法规列举如下：')[1].split('2.其他有关资料')[0]
 
 def getTablePdf(path):
+    # 读取PDF表格
     with pdfplumber.open(path) as pdf:
         first_page = pdf.pages[0]
         tables = first_page.extract_tables()

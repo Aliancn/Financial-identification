@@ -3,6 +3,7 @@ import json
 
 
 def req_chat(prompt, content,  history=None, api_url='http://127.0.0.1:6006/api/chat'):
+    # 用于向glm-4-chat 发送对话请求
     # 请求数据
     data = {
         "prompt": prompt,
@@ -34,7 +35,8 @@ def req_chat(prompt, content,  history=None, api_url='http://127.0.0.1:6006/api/
 
 
 def req_chat_long(prompt,  history=[], api_url='http://127.0.0.1:7860/chat'):
-
+    # 用于向glm-long 发送对话请求
+    # 日志写在llvm_log.txt
     pay_load = {
         "message": prompt,
         "history": history,
