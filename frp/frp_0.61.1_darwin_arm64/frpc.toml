@@ -1,0 +1,8 @@
+serverAddr = "119.3.221.246"
+serverPort = 7000
+
+[[proxies]]
+name = "web"
+type = "http"
+localPort = 8001
+customDomains = ["whuiosclub.cn"]
