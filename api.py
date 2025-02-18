@@ -28,6 +28,7 @@ app.add_middleware(
 
 app.include_router(mockRouter)
 
+
 def extract_dialogues(text):
     """
     解析回答文本，提取对话内容

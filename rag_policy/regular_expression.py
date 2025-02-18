@@ -1,22 +1,23 @@
 
 import pandas as pd
 import re
-import os 
+import os
 
 # Load classification data
 
 
 def load_classification_data():
     now_path = os.path.dirname(__file__)
-    file_path = os.path.join(now_path,'classifyItem.xlsx')
-    
+    file_path = os.path.join(now_path, 'classifyItem.xlsx')
+
     excel_data = pd.ExcelFile(file_path)
     return excel_data.parse('Sheet1', usecols=['会计科目名称', '相关对应商品'])
+
 
 re_class_categories = load_classification_data()
 
 
-def regex_match( example_text,categories= re_class_categories):
+def regex_match(example_text, categories=re_class_categories):
     regex_patterns = {}
     for index, row in categories.iterrows():
         category = row['会计科目名称']
@@ -41,11 +42,5 @@ def regex_match( example_text,categories= re_class_categories):
     return matching_categories if matching_categories else ["未找到匹配类别"]
 
 
-
 def get_category(item):
     return regex_match(re_class_categories, item)
-
-# if __name__ == "__main__":
-#     example_text = "离心机"
-#     # Display the matching categories
-#     print(regex_match(re_class_categories, example_text))

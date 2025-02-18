@@ -7,7 +7,6 @@ from validate.OCR import handle_uploaded_file, save_and_return_path
 from validate.QR import process_images
 
 import os
-from paddlex import create_pipeline
 from validate.val_baidu import vaild
 
 
@@ -85,4 +84,3 @@ def predict(file_path):
     except Exception as e:
         print(e)
         return {"error": str(e)}
-
