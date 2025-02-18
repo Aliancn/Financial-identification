@@ -1,4 +1,5 @@
 import re
+from Mock.mock_from_api import mockRouter
 from fastapi import FastAPI, UploadFile, File
 from validate.app import predict
 from pydantic import BaseModel
@@ -25,6 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(mockRouter)
 
 def extract_dialogues(text):
     """

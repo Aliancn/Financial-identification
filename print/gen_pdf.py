@@ -1,5 +1,3 @@
-import shutil
-import struct
 from weasyprint import HTML
 from jinja2 import Template
 import os
@@ -62,12 +60,13 @@ def draw_html(data=template_data):
     template = Template(template_content)
     rendered_html = template.render(data)
 
-    html_path = os.path.join(os.path.dirname(__file__),"tmp_output" ,"output.html")
+    html_path = os.path.join(os.path.dirname(
+        __file__), "tmp_output", "output.html")
     # 保存到文件
     with open(html_path, "w", encoding="utf-8") as output_file:
         output_file.write(rendered_html)
 
-    print("HTML 文件已生成！" , html_path)
+    print("HTML 文件已生成！", html_path)
     return html_path
 
 
